@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I Love You</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Dancing Script', cursive;
+            overflow: hidden;
+            transition: all 1s ease;
+        }
+
+        .button {
+            padding: 20px 40px;
+            font-size: 24px;
+            font-weight: 700;
+            color: white;
+            background: #000;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            position: relative;
+        }
+
+        .button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+
+        .message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 48px;
+            color: #ff69b4;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            opacity: 0;
+            transition: all 1s ease;
+            z-index: 999;
+            text-align: center;
+            max-width: 90%;
+        }
+
+        .message.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        /* Rose petals animation */
+        .rose-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        .rose-container.active {
+            opacity: 1;
+        }
+
+        .rose {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle at 30% 30%, #ff1493, #c71585, #8b008b);
+            border-radius: 50% 0 50% 0;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Heart animation */
+        .hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        .hearts.active {
+            opacity: 1;
+        }
+
+        .heart {
+            position: absolute;
+            color: #ff69b4;
+            font-size: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+    </style>
+</head>
+<body>
+    <button class="button" onclick="showLove()">Click me ❤️</button>
+    
+    <div class="message" id="loveMessage">
+        I love you, the most beautiful thing in my life 💕
+    </div>
+    
+    <div class="rose-container" id="roseContainer"></div>
+    <div class="hearts" id="heartsContainer"></div>
+
+    <script>
+        function showLove() {
+            const message = document.getElementById('loveMessage');
+            const roseContainer = document.getElementById('roseContainer');
+            const heartsContainer = document.getElementById('heartsContainer');
+            const button = document.querySelector('.button');
+            
+            // Show message
+            message.classList.add('show');
+            
+            // Hide button
+            button.style.opacity = '0';
+            button.style.transform = 'scale(0.8)';
+            
+            // Activate rose petals
+            roseContainer.classList.add('active');
+            createRoses();
+            
+            // Activate hearts
+            heartsContainer.classList.add('active');
+            createHearts();
+            
+            // Add romantic background
+            document.body.style.background = 'linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%)';
+        }
+
+        function createRoses() {
+            const roseContainer = document.getElementById('roseContainer');
+            for (let i = 0; i < 50; i++) {
+                const rose = document.createElement('div');
+                rose.className = 'rose';
+                rose.style.left = Math.random() * 100 + '%';
+                rose.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                rose.style.animationDelay = Math.random() * 2 + 's';
+                roseContainer.appendChild(rose);
+                
+                // Remove rose after animation
+                setTimeout(() => {
+                    if (rose.parentNode) {
+                        rose.parentNode.removeChild(rose);
+                    }
+                }, 7000);
+            }
+        }
+
+        function createHearts() {
+            const heartsContainer = document.getElementById('heartsContainer');
+            const hearts = ['💖', '💕', '💗', '💝', '🌹'];
+            
+            for (let i = 0; i < 30; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDelay = Math.random() * 2 + 's';
+                heart.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                heartsContainer.appendChild(heart);
+            }
+        }
+    </script>
+</body>
+</html>
